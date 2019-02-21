@@ -32,7 +32,7 @@ grep hello <<< "$somesillytext"
 echo "=========================="
 
 echo "======hello as a word of its own "
-grep -O "hello" <<< "$somesillytext"
+grep -o "hello" <<< "$somesillytext"
 echo "=========================="
 
 echo "======lines that start with I "
@@ -40,7 +40,7 @@ grep '^I' <<< "$somesillytext"
 echo "=========================="
 
 echo "======line that end with something other than a period "
-grep  <<< "$somesillytext"
+grep -v '^.'<<< "$somesillytext"
 echo "=========================="
 
 echo "======lines that are blank or only contain spaces or tabs "
@@ -73,7 +73,8 @@ ip -br a s| awk '{print$dev}'
 echo "=========================="
 
 echo "========Interface Names using grep insted of cut========"
-ip -br a s | grep "^[a-z]+" | awk '{print$dev}'
+#ip -br a s | grep "^[a-z]+" | awk '{print$dev}'
+ip -br a s| grep -Eo '^[^ ]+'
 echo "=========================="
 
 
@@ -84,9 +85,9 @@ echo "=========================="
 # TASK 9: Modify the grep to find both JPEG and PNG files
 echo "=========PNG files========"
 find ~ -type f -exec file {} \; 2> /dev/null |
-    grep  ": PNG" |
+    grep ": PNG\|: JPEG" |
     awk '{print $1, $2}' |
-    head
+head
 echo "=========================="
 
 # this script block finds the setuid files on the system
@@ -96,3 +97,4 @@ echo "Setuid files:"
 echo "=========================="
 find /bin /usr/bin -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5 | head
 echo "=========================="
+find /bin /usr/bin -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 5 | head

@@ -21,8 +21,9 @@ days=$(date +"%A")
 ###############
 # Main        #
 ###############
-#cat <<EOF
+a=` cat <<EOF
 
-cowsay "Welcome to planet $hostname, "$title $USER!" present time is $present on $days"
+"Welcome to planet $hostname, "$title $USER!" present time is $present on $days"
 
-#EOF
+EOF`
+echo "$(cowsay $a)"
